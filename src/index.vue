@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <div
         id="page-sidebar"
         :class="{ 'open' : showSidebar }"
@@ -9,10 +9,10 @@
     >
         <div class="sidebar-header">
             <router-link :to="{ name: 'dashboard'}" class="app-secondary-logo">
-                <img src="/img/secondary-logo.png">
+                <img src="./assets/secondary-logo.png">
             </router-link>
             <div class="menu-icon d-none d-lg-inline-block">
-                <img src="/img/icons/hamburguer-menu.png">
+                <img src="./assets/hamburguer-menu.png">
             </div>
         </div>
         <div id="sidebar-menu" class="sidebar-menu">
@@ -22,17 +22,17 @@
                         <span class="title">Dashboard</span>
                     </router-link>
                     <span class="icon-thumbnail">
-                        <i class="fas fa-chart-pie"/>
+                        <i class="fa fa-pie-chart"/>
                     </span>
                 </li>
-                <template v-if="companyData">
-                    <li v-for="(resource, index) in companyData.resources" :key="index">
-                        <router-link :to="{ name: 'browse', params: { resource: resource.name }}">
-                            <span class="title">{{ resource.title }}</span>
+                <template v-if="resources">
+                    <li v-for="(resource, index) in resources" :key="index">
+                        <router-link :to="{ name: 'browse', params: { resource: resource.slug }}">
+                            <span class="title">{{ resource.name }}</span>
                         </router-link>
                         <span class="icon-thumbnail">
                             <img v-if="resource.icon" :src="resource.icon" width="50%">
-                            <span v-else>{{ resource.name | firstLetter }}</span>
+                            <span v-else>{{ resource.slug | firstLetter }}</span>
                         </span>
                     </li>
                 </template>
@@ -60,7 +60,7 @@ export default {
     },
     computed: {
         ...mapState({
-            companyData: state => state.Company.data
+            resources: state => state.Application.resources
         })
     }
 };

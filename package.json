@@ -1,12 +1,11 @@
 {
   "name": "@gewaer/gw-sidebar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Base sidebar component for the Gewaer platform.",
   "main": "./dist/gw-sidebar.umd.min.js",
   "files": [
     "dist/gw-sidebar.umd.min.js",
-    "dist/gw-sidebar.css",
-    "src/assets"
+    "dist/gw-sidebar.css"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -28,7 +27,6 @@
     "lint"
   ],
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
     "vue": "^2.6.8",
     "vuex": "^3.0.1"
   },
