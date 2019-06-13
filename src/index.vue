@@ -4,12 +4,14 @@
         :class="{ 'open' : showSidebar }"
         class="page-sidebar"
         data-pages="sidebar"
-        @mouseenter="$emit('handleSidebar', true)"
-        @mouseleave="$emit('handleSidebar', false)"
+        @mouseenter="$emit('handle-sidebar', true)"
+        @mouseleave="$emit('handle-sidebar', false)"
     >
         <div class="sidebar-header">
             <router-link :to="{ name: 'dashboard'}" class="app-secondary-logo">
-                <img src="./assets/secondary-logo.png">
+                <slot name="app-logo">
+                    <img src="https://mc-canvas.s3.amazonaws.com/gewaer-logo-sidebar.png">
+                </slot>
             </router-link>
             <div class="menu-icon d-none d-lg-inline-block">
                 <img src="./assets/hamburguer-menu.png">
@@ -22,7 +24,7 @@
                         <span class="title">Dashboard</span>
                     </router-link>
                     <span class="icon-thumbnail">
-                        <i class="fa fa-pie-chart"/>
+                        <i class="fa fa-pie-chart" />
                     </span>
                 </li>
                 <template v-if="resources">
@@ -37,14 +39,12 @@
                     </li>
                 </template>
             </ul>
-            <div class="clearfix"/>
+            <div class="clearfix" />
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
     name: "GwSidebar",
     filters: {
@@ -53,15 +53,19 @@ export default {
         }
     },
     props: {
+        resources: {
+            type: Array,
+            default() {
+                return [];
+            },
+            validator(options) {
+                return options.every(option => option.name && option.slug);
+            }
+        },
         showSidebar: {
             type: Boolean,
             default: false
         }
-    },
-    computed: {
-        ...mapState({
-            resources: state => state.Application.resources
-        })
     }
 };
 </script>
