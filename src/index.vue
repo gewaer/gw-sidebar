@@ -9,9 +9,7 @@
     >
         <div class="sidebar-header">
             <router-link :to="{ name: 'dashboard'}" class="app-secondary-logo">
-                <slot name="app-logo">
-                    <img src="https://mc-canvas.s3.amazonaws.com/gewaer-logo-sidebar.png">
-                </slot>
+                <slot name="app-logo" />
             </router-link>
             <div class="menu-icon d-none d-lg-inline-block">
                 <img src="./assets/hamburguer-menu.png">
@@ -120,12 +118,10 @@ export default {
         width: 75%;
     }
 }
-</style>
 
-<style lang="scss" scoped>
 .sidebar-header {
     .app-secondary-logo {
-        img {
+        /deep/ img {
             max-height: 30px;
         }
     }
