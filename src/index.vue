@@ -7,11 +7,11 @@
         @mouseenter="$emit('handle-sidebar', true)"
         @mouseleave="$emit('handle-sidebar', false)"
     >
-        <div class="sidebar-header">
-            <router-link :to="{ name: 'dashboard'}" class="app-secondary-logo">
+        <div class="row no-gutters align-items-start">
+            <router-link :to="{ name: 'dashboard'}" class="col sidebar-app-logo">
                 <slot name="app-logo" />
             </router-link>
-            <div class="menu-icon d-none d-lg-inline-block">
+            <div class="col-auto menu-icon d-none d-lg-flex">
                 <img src="./assets/hamburguer-menu.png">
             </div>
         </div>
@@ -118,14 +118,25 @@ export default {
         width: 75%;
     }
 }
+</style>
 
-.sidebar-header {
-    .app-secondary-logo {
-        /deep/ img {
-            max-height: 30px;
-        }
+<style lang="scss">
+.sidebar-app-logo {
+    padding-top: 15px !important;
+    padding-left: 30px !important;
+
+    img {
+        width: 100%;
     }
 }
+
+.menu-icon {
+    width: 70px;
+    min-height: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
 .page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li > a {
     display: inline-block;
     padding: 5px 0px;
@@ -194,11 +205,6 @@ export default {
     .page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li .icon-thumbnail {
         background-color:transparent;
         color: white;
-    }
-
-    .menu-icon {
-        position: absolute;
-        right: 25px;
     }
 
     .sidebar-visible .menu-icon, .menu-pin .menu-icon {
