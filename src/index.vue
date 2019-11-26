@@ -151,14 +151,12 @@ export default {
 @media (max-width: $lg) {
     .page-sidebar {
         width:250px;
-        z-index: auto;
-        left: 0!important;
+        left: -250px!important;
         transform: translate3d(0,0,0)!important;
-        display: none;
+        transition: left 0.2s cubic-bezier(0.05, 0.74, 0.27, 0.99);
 
         &.open {
-            display: block;
-
+            left: 0!important;
             + div {
                 transform: translate3d(250px, 0, 0);
             }
