@@ -29,7 +29,11 @@
                 </span>
             </router-link>
             <template v-if="resources">
-                <router-link :to="{ name: 'browse', params: { resource: resource.slug }}" class="row no-gutters align-items-center justify-content-between py-3 px-4" v-for="(resource, index) in resources" :key="index">
+                <router-link 
+                    v-for="(resource, index) in resources" 
+                    :to="{ name: 'browse', params: { resource: resource.slug }}" 
+                    :key="index" 
+                    class="row no-gutters align-items-center justify-content-between py-3 px-4">
                     <span class="col">{{ resource.name }}</span>
                     <span class="icon-thumbnail">
                         <img v-if="resource.icon" :src="resource.icon" width="50%">
