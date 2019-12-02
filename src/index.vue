@@ -7,7 +7,7 @@
         @mouseenter="$emit('handle-sidebar', true)"
         @mouseleave="$emit('handle-sidebar', false)"
     >
-        <div class="row no-gutters align-items-start">
+        <div class="row no-gutters align-items-center px-4 py-3">
             <router-link :to="{ name: 'dashboard'}" class="col sidebar-app-logo">
                 <slot name="app-logo" />
             </router-link>
@@ -16,28 +16,31 @@
             </div>
         </div>
         <div id="sidebar-menu" class="sidebar-menu">
-            <ul class="menu-items">
-                <li class="m-t-30">
-                    <router-link id="dashboard-menu-link" :to="{ name: 'dashboard'}">
-                        <span class="title">Dashboard</span>
-                    </router-link>
+            <a href="#" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                <span class="col">Change App</span>
+                <span class="icon-thumbnail col-auto">
+                    <i class="fas fa-box" />
+                </span>
+            </a>
+            <router-link :to="{ name: 'dashboard'}" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                <span class="col">Dashboard</span>
+                <span class="icon-thumbnail col-auto">
+                    <i class="fa fa-pie-chart" />
+                </span>
+            </router-link>
+            <template v-if="resources">
+                <router-link
+                    v-for="(resource, index) in resources"
+                    :to="{ name: 'browse', params: { resource: resource.slug }}"
+                    :key="index"
+                    class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                    <span class="col">{{ resource.name }}</span>
                     <span class="icon-thumbnail">
-                        <i class="fa fa-pie-chart" />
+                        <img v-if="resource.icon" :src="resource.icon" width="50%">
+                        <span v-else>{{ resource.slug | firstLetter }}</span>
                     </span>
-                </li>
-                <template v-if="resources">
-                    <li v-for="(resource, index) in resources" :key="index">
-                        <router-link :to="{ name: 'browse', params: { resource: resource.slug }}">
-                            <span class="title">{{ resource.name }}</span>
-                        </router-link>
-                        <span class="icon-thumbnail">
-                            <img v-if="resource.icon" :src="resource.icon" width="50%">
-                            <span v-else>{{ resource.slug | firstLetter }}</span>
-                        </span>
-                    </li>
-                </template>
-            </ul>
-            <div class="clearfix" />
+                </router-link>
+            </template>
         </div>
     </div>
 </template>
@@ -68,174 +71,100 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.icon-thumbnail {
-    font-size: 22px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-
-    i {
-        font-size: 18px !important;
-    }
-}
-
-.page-sidebar .sidebar-menu .menu-items>li>a>.title {
-    float: left;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 75%;
-    text-transform: capitalize;
-}
-
-.page-sidebar .sidebar-menu .menu-items li>a {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 70%;
-}
-
+<style lang="scss">
 .page-sidebar {
+    width: 280px;
+    background-color: var(--darken-base-color);
+    z-index: 1049;
+    left: -210px;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    right: auto;
+    overflow: hidden;
+    transition: transform .4s cubic-bezier(.05,.74,.27,.99);
     transform: translate3d(0px, 0px, 0px);
-}
 
-.page-sidebar.open {
-    transform: translate(210px, 0px);
+    &.open {
+        transform: translate(210px, 0px);
+    }
+
+    .sidebar-app-logo {
+        font-family: 'Lato', sans-serif;
+        font-weight: 900;
+        font-size: 24px;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .menu-icon {
+        align-items: center;
+        justify-content: center;
+        margin-left: 25px;
+    }
+
+    .sidebar-menu {
+        padding-top: 30px;
+        color: white;
+
+        .router-link-exact-active {
+            background-color: rgba(#000, 0.2);
+            position: relative;
+
+            &:before {
+                content: "";
+                width: 5px;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                background-color: var(--base-color);
+            }
+        }
+
+        .icon-thumbnail {
+            font-size: 22px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+
+            i {
+                font-size: 18px !important;
+                color: white;
+            }
+        }
+    }
+
+    a:visited,
+    a:focus,
+    button:visited,
+    button:focus,
+    a,
+    button {
+        color: white;
+        text-decoration: none;
+    }
+
 }
 
 @media (max-width: 991px) {
-    .page-sidebar.open {
-        display: block;
-    }
-
-    .page-sidebar.open + .page-container {
-        transform: translate3d(250px, 0, 0);
-    }
-
-    .page-sidebar .sidebar-menu .menu-items li > a {
-        width: 75%;
-    }
-}
-</style>
-
-<style lang="scss">
-.sidebar-app-logo {
-    padding-top: 15px !important;
-    padding-left: 30px !important;
-
-    img {
-        width: 100%;
-    }
-}
-
-.menu-icon {
-    width: 70px;
-    min-height: 60px;
-    align-items: center;
-    justify-content: center;
-}
-
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li > a {
-    display: inline-block;
-    padding: 5px 0px;
-    font-size: 13px;
-    font-family: Arial, sans-serif;
-    white-space: normal;
-}
-
-.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li > a,
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li > a {
-    font-family: 'Roboto', sans-serif;
-}
-
-.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li,
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li {
-    padding: 10px 20px 0 40px;
-}
-
-.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li:hover,
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li:hover {
-    background:rgba(0,165,222,.5);
-}
-
-.icon-thumbnail,
-.page-sidebar .sidebar-menu .menu-items>li ul.dealer-sub-menu>li .icon-thumbnail {
-    background-color: transparent;
-    color: #fff;
-}
-
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li .icon-thumbnail {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    margin: 0;
-    font-size: 14px;
-}
-
-.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu i,
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu i {
-    color:rgba(255,255,255, .8);
-    font-size: 16px !important;
-}
-
-.page-sidebar .sidebar-header,
-.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu,
-.page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu {
-    background-color:rgba(27,117,188,0);
-    border-bottom: 1px solid var(--base-color); }
-
-    .page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu {
-        display: block !important;
-        list-style: none;
-        clear: both;
-        margin: 0 0 10px 0;
-        padding: 18px 0 10px 0;
-    }
-
-    .page-sidebar .sidebar-menu .menu-items>li ul.dealer-sub-menu>li {
-        padding: 10px 20px 0 40px;
-        background: none;
-        margin-top: 1px;
-    }
-
-    .icon-thumbnail,
-    .page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > li .icon-thumbnail,
-    .page-sidebar .sidebar-menu .menu-items > li ul.dealer-sub-menu > li .icon-thumbnail {
-        background-color:transparent;
-        color: white;
-    }
-
-    .sidebar-visible .menu-icon, .menu-pin .menu-icon {
-        display: none !important;
-    }
-
     .page-sidebar {
-        background-color: var(--base-color);
-        z-index: 1049;
-    }
+        width:250px;
+        left: -250px!important;
+        transform: translate3d(0,0,0)!important;
+        transition: left 0.2s cubic-bezier(0.05, 0.74, 0.27, 0.99);
 
-    .page-sidebar .sidebar-menu .menu-items > li > a {
-        font-family: 'Roboto', 'Roboto', sans-serif;
-        padding-left: 30px;
-        font-weight: bold;
+        &.open {
+            left: 0!important;
+            + div {
+                transform: translate3d(250px, 0, 0);
+            }
+        }
     }
-
-    .pace .pace-progress {
-        background-color: #00a5de;
-    }
-
-    .pace .pace-activity {
-        display: none;
-    }
-
-    .page-sidebar a:visited,
-    .page-sidebar a:focus,
-    .page-sidebar button:visited,
-    .page-sidebar button:focus,
-    .page-sidebar a,
-    .page-sidebar button {
-        color: white;
-    }
+}
 </style>
