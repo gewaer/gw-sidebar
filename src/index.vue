@@ -29,10 +29,10 @@
                 </span>
             </router-link>
             <template v-if="resources">
-                <router-link 
-                    v-for="(resource, index) in resources" 
-                    :to="{ name: 'browse', params: { resource: resource.slug }}" 
-                    :key="index" 
+                <router-link
+                    v-for="(resource, index) in resources"
+                    :to="{ name: 'browse', params: { resource: resource.slug }}"
+                    :key="index"
                     class="row no-gutters align-items-center justify-content-between py-3 px-4">
                     <span class="col">{{ resource.name }}</span>
                     <span class="icon-thumbnail">
@@ -152,7 +152,7 @@ export default {
 
 }
 
-@media (max-width: $lg) {
+@media (max-width: 991px) {
     .page-sidebar {
         width:250px;
         left: -250px!important;
