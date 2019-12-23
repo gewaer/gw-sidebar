@@ -19,7 +19,7 @@
             <a href="#" class="row no-gutters align-items-center justify-content-between py-3 px-4">
                 <span class="col">Change App</span>
                 <span class="icon-thumbnail col-auto">
-                    <i class="fas fa-box" />
+                    <i class="fa fa-box" />
                 </span>
             </a>
             <router-link :to="{ name: 'dashboard'}" class="row no-gutters align-items-center justify-content-between py-3 px-4">
@@ -29,18 +29,53 @@
                 </span>
             </router-link>
             <template v-if="resources">
-                <router-link
-                    v-for="(resource, index) in resources"
-                    :key="index"
-                    :to="{ name: 'browse', params: { resource: resource.slug }}"
-                    class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                >
-                    <span class="col">{{ resource.name }}</span>
-                    <span class="icon-thumbnail">
-                        <img v-if="resource.icon" :src="resource.icon" width="50%">
-                        <span v-else>{{ resource.slug | firstLetter }}</span>
-                    </span>
-                </router-link>
+                <template v-for="(resource, index) in resources">
+                    <template v-if="+resource.show">
+                        <router-link
+                            v-if="resource.slug"
+                            :key="`resource-${index}`"
+                            :to="{ name: 'browse', params: { resource: resource.slug }}"
+                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
+                        >
+                            <span class="col">{{ resource.name }}</span>
+                            <span class="icon-thumbnail col-auto">
+                                <img v-if="resource.icon" :src="resource.icon" width="50%">
+                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
+                                <span v-else>{{ resource.slug | firstLetter }}</span>
+                            </span>
+                        </router-link>
+                        <router-link
+                            v-else-if="resource.route"
+                            :key="`resource-${index}`"
+                            :to="resource.route"
+                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
+                        >
+                            <span class="col">{{ resource.name }}</span>
+                            <span class="icon-thumbnail col-auto">
+                                <img v-if="resource.icon" :src="resource.icon" width="50%">
+                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
+                                <span v-else>{{ resource.name | firstLetter }}</span>
+                            </span>
+                        </router-link>
+                        <a
+                            v-else-if="resource.link"
+                            :key="`resource-${index}`"
+                            :href="resource.link"
+                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
+                            target="_blank"
+                        >
+                            <span class="col resource-name">
+                                {{ resource.name }}
+                                <i class="fas fa-external-link-alt" />
+                            </span>
+                            <span class="icon-thumbnail col-auto">
+                                <img v-if="resource.icon" :src="resource.icon" width="50%">
+                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
+                                <span v-else>{{ resource.name | firstLetter }}</span>
+                            </span>
+                        </a>
+                    </template>
+                </template>
             </template>
         </div>
     </div>
@@ -59,9 +94,6 @@ export default {
             type: Array,
             default() {
                 return [];
-            },
-            validator(options) {
-                return options.every(option => option.name && option.slug);
             }
         },
         showSidebar: {
@@ -121,6 +153,13 @@ export default {
                 position: absolute;
                 left: 0;
                 background-color: var(--base-color);
+            }
+        }
+
+        .resource-name {
+            i {
+                font-size: 10px;
+                vertical-align: middle;
             }
         }
 
