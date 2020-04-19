@@ -1,11 +1,11 @@
 <template>
     <div
         id="page-sidebar"
-        :class="{ 'open' : showSidebar }"
+        :class="{ 'open' : sidebarState == 'opened' || showSidebar }"
         class="page-sidebar"
         data-pages="sidebar"
-        @mouseenter="$emit('handle-sidebar', true)"
-        @mouseleave="$emit('handle-sidebar', false)"
+        @mouseenter="sidebarState == 'hover' && $emit('handle-sidebar', true)"
+        @mouseleave="sidebarState == 'hover' && $emit('handle-sidebar', false)"
     >
         <div class="row no-gutters align-items-center px-4 py-3">
             <router-link :to="{ name: 'dashboard'}" class="col sidebar-app-logo">
@@ -99,6 +99,10 @@ export default {
         showSidebar: {
             type: Boolean,
             default: false
+        },
+        sidebarState: {
+            type: String,
+            default: "hover"
         }
     }
 };
@@ -195,12 +199,12 @@ export default {
 @media (max-width: 991px) {
     .page-sidebar {
         width:250px;
-        left: -250px!important;
-        transform: translate3d(0,0,0)!important;
+        left: -250px !important;
+        transform: translate3d(0,0,0) !important;
         transition: left 0.2s cubic-bezier(0.05, 0.74, 0.27, 0.99);
 
         &.open {
-            left: 0!important;
+            left: 0 !important;
             + div {
                 transform: translate3d(250px, 0, 0);
             }
