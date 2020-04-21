@@ -77,6 +77,70 @@
                     </template>
                 </template>
             </template>
+            <div :class="{ 'open-category-menu' : currentCategoryMenu == 'overview' }" class="menu-category row flex-column no-gutters">
+                <span @click="toggleCategoryMenu('overview')" class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center">
+                    Overview
+                    <i class="fa fa-chevron-right" />
+                </span>
+                <div class="menu-category-links">
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4 router-link-exact-active">
+                        <span class="col">Dashboard</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>D</span>
+                        </span>
+                    </a>
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Companies</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>C</span>
+                        </span>
+                    </a>
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Clients</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>C</span>
+                        </span>
+                    </a>
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Products</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>P</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div :class="{ 'open-category-menu' : currentCategoryMenu == 'manage' }" class="menu-category row flex-column no-gutters">
+                <span @click="toggleCategoryMenu('manage')" class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center">
+                    Manage
+                    <i class="fa fa-chevron-right" />
+                </span>
+                <div class="menu-category-links">
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4 router-link-exact-active">
+                        <span class="col">Dashboard</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>D</span>
+                        </span>
+                    </a>
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Companies</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>C</span>
+                        </span>
+                    </a>
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Clients</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>C</span>
+                        </span>
+                    </a>
+                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Products</span>
+                        <span class="icon-thumbnail col-auto">
+                            <span>P</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -103,6 +167,20 @@ export default {
         sidebarState: {
             type: String,
             default: "hover"
+        }
+    },
+    data() {
+        return {
+            currentCategoryMenu: "overview"
+        };
+    },
+    methods: {
+        toggleCategoryMenu(categoryMenu) {
+            if(this.currentCategoryMenu == categoryMenu) {
+                this.currentCategoryMenu = "";
+            } else {
+                this.currentCategoryMenu = categoryMenu;
+            }
         }
     }
 };
@@ -194,6 +272,39 @@ export default {
         text-decoration: none;
     }
 
+    .menu-category {
+        border-top: 1px solid rgba(255, 255, 255, .2);
+
+        .menu-category-title {
+            color: var(--base-color);
+            padding-right: 30px !important;
+            cursor: pointer;
+
+            i {
+                transition: transform .2s;
+            }
+        }
+
+        .menu-category-links {
+            max-height: 0;
+            overflow-y: hidden;
+            transition: all .5s;
+        }
+
+        &.open-category-menu {
+            .menu-category-title {
+                i {
+                    transform: rotate(90deg);
+                    transition: transform .2s;
+                }
+            }
+
+            .menu-category-links {
+                max-height: 600px;
+                transition: all 1s;
+            }
+        }
+    }
 }
 
 @media (max-width: 991px) {
