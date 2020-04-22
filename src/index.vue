@@ -22,123 +22,99 @@
                     <i class="fa fa-box" />
                 </span>
             </a>
-            <router-link :to="{ name: 'dashboard'}" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                <span class="col">Dashboard</span>
-                <span class="icon-thumbnail col-auto">
-                    <i class="fa fa-pie-chart" />
-                </span>
-            </router-link>
-            <template v-if="resources">
-                <template v-for="(resource, index) in resources">
-                    <template v-if="+resource.show">
-                        <router-link
-                            v-if="resource.slug"
-                            :key="`resource-${index}`"
-                            :to="{ name: 'browse', params: { resource: resource.slug }}"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                        >
-                            <span class="col">{{ resource.name }}</span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.slug | firstLetter }}</span>
-                            </span>
-                        </router-link>
-                        <router-link
-                            v-else-if="resource.route"
-                            :key="`resource-${index}`"
-                            :to="resource.route"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                        >
-                            <span class="col">{{ resource.name }}</span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.name | firstLetter }}</span>
-                            </span>
-                        </router-link>
-                        <a
-                            v-else-if="resource.link"
-                            :key="`resource-${index}`"
-                            :href="resource.link"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                            target="_blank"
-                        >
-                            <span class="col resource-name">
-                                {{ resource.name }}
-                                <i class="fas fa-external-link-alt" />
-                            </span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.name | firstLetter }}</span>
-                            </span>
-                        </a>
-                    </template>
-                </template>
-            </template>
             <div :class="{ 'open-category-menu' : currentCategoryMenu == 'overview' }" class="menu-category row flex-column no-gutters">
-                <span @click="toggleCategoryMenu('overview')" class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center">
+                <span class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center" @click="toggleCategoryMenu('overview')">
                     Overview
                     <i class="fa fa-chevron-right" />
                 </span>
                 <div class="menu-category-links">
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4 router-link-exact-active">
+                    <router-link :to="{ name: 'dashboard'}" class="row no-gutters align-items-center justify-content-between py-3 px-4">
                         <span class="col">Dashboard</span>
                         <span class="icon-thumbnail col-auto">
-                            <span>D</span>
+                            <i class="fa fa-pie-chart" />
                         </span>
-                    </a>
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                        <span class="col">Companies</span>
-                        <span class="icon-thumbnail col-auto">
-                            <span>C</span>
-                        </span>
-                    </a>
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                        <span class="col">Clients</span>
-                        <span class="icon-thumbnail col-auto">
-                            <span>C</span>
-                        </span>
-                    </a>
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                        <span class="col">Products</span>
-                        <span class="icon-thumbnail col-auto">
-                            <span>P</span>
-                        </span>
-                    </a>
+                    </router-link>
+                    <template v-if="resources">
+                        <template v-for="(resource, index) in resources">
+                            <template v-if="+resource.show">
+                                <router-link
+                                    v-if="resource.slug"
+                                    :key="`resource-${index}`"
+                                    :to="{ name: 'browse', params: { resource: resource.slug }}"
+                                    class="row no-gutters align-items-center justify-content-between py-3 px-4"
+                                >
+                                    <span class="col">{{ resource.name }}</span>
+                                    <span class="icon-thumbnail col-auto">
+                                        <img v-if="resource.icon" :src="resource.icon" width="50%">
+                                        <i v-else-if="resource.iconClass" :class="resource.iconClass" />
+                                        <span v-else>{{ resource.slug | firstLetter }}</span>
+                                    </span>
+                                </router-link>
+                                <router-link
+                                    v-else-if="resource.route"
+                                    :key="`resource-${index}`"
+                                    :to="resource.route"
+                                    class="row no-gutters align-items-center justify-content-between py-3 px-4"
+                                >
+                                    <span class="col">{{ resource.name }}</span>
+                                    <span class="icon-thumbnail col-auto">
+                                        <img v-if="resource.icon" :src="resource.icon" width="50%">
+                                        <i v-else-if="resource.iconClass" :class="resource.iconClass" />
+                                        <span v-else>{{ resource.name | firstLetter }}</span>
+                                    </span>
+                                </router-link>
+                                <a
+                                    v-else-if="resource.link"
+                                    :key="`resource-${index}`"
+                                    :href="resource.link"
+                                    class="row no-gutters align-items-center justify-content-between py-3 px-4"
+                                    target="_blank"
+                                >
+                                    <span class="col resource-name">
+                                        {{ resource.name }}
+                                        <i class="fas fa-external-link-alt" />
+                                    </span>
+                                    <span class="icon-thumbnail col-auto">
+                                        <img v-if="resource.icon" :src="resource.icon" width="50%">
+                                        <i v-else-if="resource.iconClass" :class="resource.iconClass" />
+                                        <span v-else>{{ resource.name | firstLetter }}</span>
+                                    </span>
+                                </a>
+                            </template>
+                        </template>
+                    </template>
                 </div>
             </div>
             <div :class="{ 'open-category-menu' : currentCategoryMenu == 'manage' }" class="menu-category row flex-column no-gutters">
-                <span @click="toggleCategoryMenu('manage')" class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center">
+                <span class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center" @click="toggleCategoryMenu('manage')">
                     Manage
                     <i class="fa fa-chevron-right" />
                 </span>
                 <div class="menu-category-links">
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4 router-link-exact-active">
-                        <span class="col">Dashboard</span>
+                    <router-link :to="{ name: 'settingsUsersProfile' }" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Users</span>
                         <span class="icon-thumbnail col-auto">
-                            <span>D</span>
+                            <i class="fas fa-users" />
                         </span>
-                    </a>
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                        <span class="col">Companies</span>
+                    </router-link>
+                    <router-link :to="{ name: 'settingsCompaniesProfile' }" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Company</span>
                         <span class="icon-thumbnail col-auto">
-                            <span>C</span>
+                            <i class="fas fa-building" />
                         </span>
-                    </a>
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                        <span class="col">Clients</span>
+                    </router-link>
+                    <router-link :to="{ name: 'settingsAppsCustomFieldsList' }" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">App</span>
                         <span class="icon-thumbnail col-auto">
-                            <span>C</span>
+                            <i class="fas fa-mobile-alt" />
                         </span>
-                    </a>
-                    <a href="" class="row no-gutters align-items-center justify-content-between py-3 px-4">
-                        <span class="col">Products</span>
+                    </router-link>
+                    <router-link :to="{ name: 'settingsManagerList' }" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+                        <span class="col">Companies Manager</span>
                         <span class="icon-thumbnail col-auto">
-                            <span>P</span>
+                            <i class="fas fa-th-list" />
                         </span>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -176,7 +152,7 @@ export default {
     },
     methods: {
         toggleCategoryMenu(categoryMenu) {
-            if(this.currentCategoryMenu == categoryMenu) {
+            if (this.currentCategoryMenu == categoryMenu) {
                 this.currentCategoryMenu = "";
             } else {
                 this.currentCategoryMenu = categoryMenu;
