@@ -30,7 +30,7 @@
             </router-link>
 
             <template v-if="resources">
-                <template v-for="(resource, index) in resources">
+                <template v-for="(resource, index) in menuLinks">
                     <template v-if="!resource.is_published || +resource.is_published">
                         <side-item 
                             v-if="!resource.links || !resource.links.length"   
@@ -41,9 +41,12 @@
 
                         <side-item-group
                             v-else
+                            :current="currentCategoryMenu"
                             :label="resource.title" 
+                            :menu-id="resource.menuId"
                             :childs="resource.links"
-                            :key="`resource-${index}`">
+                            :key="`resource-${index}`"
+                            @toggle-active="toggleActive">
                         </side-item-group>
                     </template>
                 </template>
@@ -55,6 +58,7 @@
 <script>
 import SideItem from "./item";
 import SideItemGroup from "./item-group";
+import uuid from "uuid/v4";
 
 export default {
     name: "GwSidebar",
@@ -76,6 +80,30 @@ export default {
         sidebarState: {
             type: String,
             default: "hover"
+        }
+    },
+    data() {
+        return {
+            currentCategoryMenu: "overview"
+        }
+    },
+    computed: {
+        menuLinks() {
+            return this.resources.map( item => {
+                if (item.links) {
+                    item.menuId = uuid();
+                }
+                return item;
+            })
+        }
+    },
+    methods: {
+        toggleActive(categoryName) {
+            if (this.currentCategoryMenu == categoryName) {
+                this.currentCategoryMenu = "";
+                return
+            }
+            this.currentCategoryMenu = categoryName
         }
     }
 };

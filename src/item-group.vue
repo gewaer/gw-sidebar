@@ -1,33 +1,22 @@
 <template>
-  <div class="menu-item-group">
-    <a
-        href="#"
-        class="row no-gutters align-items-center justify-content-between py-3 px-4 toggle"
-        target="_blank"
+  <div :class="{ 'open-category-menu' : isActive}" class="menu-category row flex-column no-gutters">
+    <span
+        class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center" 
         :class="{ active: isActive }"
         @click.prevent="toggleActive"
     >
-        <span class="col resource-name">
             {{ label }}
-        </span>
-        <span class="icon-thumbnail col-auto">
             <i class="fas" :class="`${arrowIcon}`" />
-        </span>
-    </a>
+    </span>
 
     <div
-      class="menu-item-group__childs"
-      :class="{ 'my-collapse': isActive, 'custom-accordion': true }"
+      class="menu-category-links"
     >
-      <el-collapse-transition>
-        <div class="child-container" v-show="isActive">
-          <template v-for="(resource, index) in childs">
-              <side-item :resource="resource"  v-if="!resource[childName]|| resource[childName].length" :key="`resource-${label}-${index}`">
+        <template v-for="(resource, index) in childs">
+            <side-item :resource="resource"  v-if="!resource[childName]|| resource[childName].length" :key="`resource-${label}-${index}`">
 
-              </side-item>
-          </template>
-        </div>
-      </el-collapse-transition>
+            </side-item>
+        </template>
     </div>
   </div>
 </template>
@@ -46,6 +35,14 @@ export default {
         default() {
           return []
         }
+      },
+      current: {
+        type: String,
+        required: true
+      },
+      menuId: {
+        type: String,
+        required: true
       },
       childName: {
         type: String, 
@@ -67,15 +64,15 @@ export default {
   },
   computed: {
     arrowIcon() {
-      return this.active ? "fa-chevron-down" : "fa-chevron-right";
+      return "fa-chevron-right";
     },
     isActive() {
-      return this.active;
+      return this.current == this.menuId;
     }
   },
   methods: {
     toggleActive() {
-      this.active = !this.active;
+      this.$emit("toggle-active", this.menuId);
     }
   }
 };
@@ -94,24 +91,35 @@ export default {
 </style>
 
 <style lang="scss">
-.custom-accordion {
-  animation: open 0.3s;
-  overflow: hidden;
-}
+.menu-category {
+    border-top: 1px solid rgba(255, 255, 255, .2);
+    
+    .menu-category-title {
+        color: var(--base-color);
+        padding-right: 30px !important;
+        cursor: pointer;
+        i {
+            transition: transform .2s;
+        }
+    }
+    
+    .menu-category-links {
+        max-height: 0;
+        overflow-y: hidden;
+        transition: all .5s;
+    }
 
-.custom-accordion.my-collapse {
-  animation: open 0.3s reverse;
-}
-
-@keyframes open {
-  0% {
-    height: 0;
-  }
-  50% {
-    height: 50%;
-  }
-  100% {
-    max-height: auto;
-  }
+    &.open-category-menu {
+        .menu-category-title {
+            i {
+                transform: rotate(90deg);
+                transition: transform .2s;
+            }
+        }
+        .menu-category-links {
+            max-height: 600px;
+            transition: all 1s;
+        }
+    }
 }
 </style>
