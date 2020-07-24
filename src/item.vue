@@ -53,7 +53,7 @@ export default {
     },
     filters: {
         firstLetter(value) {
-            return value.charAt(0);
+            return value && value.charAt(0);
         }
     },
 }

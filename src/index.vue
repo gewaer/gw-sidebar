@@ -90,7 +90,7 @@ export default {
     watch: {
         menuLinks: {
             handler(links) {
-                this.currentCategoryMenu = links.find(link => link.menuId).menuId;
+                this.currentCategoryMenu = links.length ? links.find(link => link.menuId).menuId : "";
             },
             immediate: true
         }
