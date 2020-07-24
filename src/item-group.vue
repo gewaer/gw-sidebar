@@ -52,11 +52,6 @@ export default {
   components: {
     SideItem
   },
-  data() {
-    return {
-      active: true
-    };
-  },
   filters: {
       firstLetter(value) {
           return value.charAt(0);

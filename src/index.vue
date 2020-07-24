@@ -84,7 +84,15 @@ export default {
     },
     data() {
         return {
-            currentCategoryMenu: "overview"
+            currentCategoryMenu: ""
+        }
+    },
+    watch: {
+        menuLinks: {
+            handler(links) {
+                this.currentCategoryMenu = links.find(link => link.menuId).menuId;
+            },
+            immediate: true
         }
     },
     computed: {
