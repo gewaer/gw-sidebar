@@ -8,7 +8,7 @@
         <span class="icon-thumbnail col-auto">
             <img v-if="resource.icon" :src="resource.icon" width="50%">
             <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-            <span v-else>{{ resource.slsug | firstLetter }}</span>
+            <span v-else>{{ resource.slug | firstLetter }}</span>
         </span>
     </router-link>
 

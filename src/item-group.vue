@@ -1,21 +1,21 @@
 <template>
   <div :class="{ 'open-category-menu' : isActive}" class="menu-category row flex-column no-gutters">
     <span
-        class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center" 
         :class="{ active: isActive }"
-        @click.prevent="toggleActive"
+        class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center" 
+        @click.prevent="toggleActive()"
     >
             {{ label }}
             <i class="fas" :class="`${arrowIcon}`" />
     </span>
 
-    <div
-      class="menu-category-links"
-    >
+    <div class="menu-category-links">
         <template v-for="(resource, index) in childs">
-            <side-item :resource="resource"  v-if="!resource[childName]|| resource[childName].length" :key="`resource-${label}-${index}`">
-
-            </side-item>
+            <side-item
+                v-if="!resource[childName]|| resource[childName].length"
+                :key="`resource-${label}-${index}`"
+                :resource="resource"
+            />
         </template>
     </div>
   </div>

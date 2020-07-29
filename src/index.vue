@@ -35,9 +35,8 @@
                         <side-item 
                             v-if="!resource.links || !resource.links.length"   
                             :resource="resource"  
-                            :key="`resource-${index}`">
-
-                        </side-item>
+                            :key="`resource-${index}`"
+                        />
 
                         <side-item-group
                             v-else
@@ -46,8 +45,8 @@
                             :menu-id="resource.menuId"
                             :childs="resource.links"
                             :key="`resource-${index}`"
-                            @toggle-active="toggleActive">
-                        </side-item-group>
+                            @toggle-active="toggleActive"
+                        />
                     </template>
                 </template>
             </template>
@@ -109,9 +108,9 @@ export default {
         toggleActive(categoryName) {
             if (this.currentCategoryMenu == categoryName) {
                 this.currentCategoryMenu = "";
-                return
+            } else {
+                this.currentCategoryMenu = categoryName;
             }
-            this.currentCategoryMenu = categoryName
         }
     }
 };
