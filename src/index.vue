@@ -28,52 +28,25 @@
                     <i class="fa fa-pie-chart" />
                 </span>
             </router-link>
+
             <template v-if="resources">
                 <template v-for="(resource, index) in resources">
-                    <template v-if="+resource.show">
-                        <router-link
-                            v-if="resource.slug"
+                    <template v-if="!resource.is_published || +resource.is_published">
+                        <side-item 
+                            v-if="!resource.links || !resource.links.length"   
+                            :resource="resource"  
                             :key="`resource-${index}`"
-                            :to="{ name: 'browse', params: { resource: resource.slug }}"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                        >
-                            <span class="col">{{ resource.name }}</span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.slug | firstLetter }}</span>
-                            </span>
-                        </router-link>
-                        <router-link
-                            v-else-if="resource.route"
+                        />
+
+                        <side-item-group
+                            v-else
+                            :current="currentCategoryMenu"
+                            :label="resource.title" 
+                            :menu-id="resource.id || resource.title"
+                            :childs="resource.links"
                             :key="`resource-${index}`"
-                            :to="resource.route"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                        >
-                            <span class="col">{{ resource.name }}</span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.name | firstLetter }}</span>
-                            </span>
-                        </router-link>
-                        <a
-                            v-else-if="resource.link"
-                            :key="`resource-${index}`"
-                            :href="resource.link"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                            target="_blank"
-                        >
-                            <span class="col resource-name">
-                                {{ resource.name }}
-                                <i class="fas fa-external-link-alt" />
-                            </span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.name | firstLetter }}</span>
-                            </span>
-                        </a>
+                            @toggle-active="toggleActive"
+                        />
                     </template>
                 </template>
             </template>
@@ -82,12 +55,14 @@
 </template>
 
 <script>
+import SideItem from "./item";
+import SideItemGroup from "./item-group";
+
 export default {
     name: "GwSidebar",
-    filters: {
-        firstLetter(value) {
-            return value.charAt(0);
-        }
+    components: {
+        SideItem,
+        SideItemGroup
     },
     props: {
         resources: {
@@ -103,6 +78,28 @@ export default {
         sidebarState: {
             type: String,
             default: "hover"
+        }
+    },
+    data() {
+        return {
+            currentCategoryMenu: ""
+        }
+    },
+    watch: {
+        resources: {
+            handler(links) {
+                this.currentCategoryMenu = links.length ? links.find(link => link.links).title : "";
+            },
+            immediate: true
+        }
+    },
+    methods: {
+        toggleActive(categoryName) {
+            if (this.currentCategoryMenu == categoryName) {
+                this.currentCategoryMenu = "";
+            } else {
+                this.currentCategoryMenu = categoryName;
+            }
         }
     }
 };
