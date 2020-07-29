@@ -30,7 +30,7 @@
             </router-link>
 
             <template v-if="resources">
-                <template v-for="(resource, index) in menuLinks">
+                <template v-for="(resource, index) in resources">
                     <template v-if="!resource.is_published || +resource.is_published">
                         <side-item 
                             v-if="!resource.links || !resource.links.length"   
@@ -42,7 +42,7 @@
                             v-else
                             :current="currentCategoryMenu"
                             :label="resource.title" 
-                            :menu-id="resource.menuId"
+                            :menu-id="resource.id || resource.title"
                             :childs="resource.links"
                             :key="`resource-${index}`"
                             @toggle-active="toggleActive"
@@ -87,21 +87,11 @@ export default {
         }
     },
     watch: {
-        menuLinks: {
+        resources: {
             handler(links) {
-                this.currentCategoryMenu = links.length ? links.find(link => link.menuId).menuId : "";
+                this.currentCategoryMenu = links.length ? links.find(link => link.links).title : "";
             },
             immediate: true
-        }
-    },
-    computed: {
-        menuLinks() {
-            return this.resources.map( item => {
-                if (item.links) {
-                    item.menuId = uuid();
-                }
-                return item;
-            })
         }
     },
     methods: {
