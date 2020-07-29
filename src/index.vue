@@ -57,7 +57,6 @@
 <script>
 import SideItem from "./item";
 import SideItemGroup from "./item-group";
-import uuid from "uuid/v4";
 
 export default {
     name: "GwSidebar",
