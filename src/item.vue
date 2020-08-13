@@ -45,16 +45,16 @@
 
 <script>
 export default {
-    props: {
-        resource: {
-            type: Object,
-            required: true
-        }
-    },
     filters: {
         firstLetter(value) {
             return value && value.charAt(0);
         }
     },
+    props: {
+        resource: {
+            type: Object,
+            required: true
+        }
+    }
 }
 </script>
