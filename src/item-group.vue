@@ -25,6 +25,14 @@
 import SideItem from "./item";
 
 export default {
+    components: {
+        SideItem
+    },
+    filters: {
+        firstLetter(value) {
+            return value.charAt(0);
+        }
+    },
     props: {
         label: {
             type: String,
@@ -33,7 +41,7 @@ export default {
         childs: {
             type: Array,
             default() {
-            return []
+                return [];
             }
         },
         current: {
@@ -47,14 +55,6 @@ export default {
         childName: {
             type: String, 
             default: "links"
-        }
-    },
-    components: {
-        SideItem
-    },
-    filters: {
-        firstLetter(value) {
-            return value.charAt(0);
         }
     },
     computed: {

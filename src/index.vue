@@ -34,17 +34,17 @@
                     <template v-if="!resource.is_published || +resource.is_published">
                         <side-item 
                             v-if="!resource.links || !resource.links.length"   
-                            :resource="resource"  
-                            :key="`resource-${index}`"
+                            :key="`resource-${index}`"  
+                            :resource="resource"
                         />
 
                         <side-item-group
                             v-else
-                            :current="currentCategoryMenu"
-                            :label="resource.title" 
+                            :key="`resource-${index}`"
+                            :current="currentCategoryMenu" 
+                            :label="resource.title"
                             :menu-id="resource.id || resource.title"
                             :childs="resource.links"
-                            :key="`resource-${index}`"
                             @toggle-active="toggleActive"
                         />
                     </template>
