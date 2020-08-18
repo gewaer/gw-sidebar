@@ -41,7 +41,7 @@ export default {
         childs: {
             type: Array,
             default() {
-                return []
+                return [];
             }
         },
         current: {
