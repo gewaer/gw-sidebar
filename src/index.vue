@@ -32,16 +32,15 @@
             <template v-if="resources">
                 <template v-for="(resource, index) in resources">
                     <template v-if="!resource.is_published || +resource.is_published">
-                        <side-item 
-                            v-if="!resource.links || !resource.links.length"   
-                            :key="`resource-${index}`"  
+                        <side-item
+                            v-if="!resource.links || !resource.links.length"
+                            :key="`resource-${index}`"
                             :resource="resource"
                         />
-
                         <side-item-group
                             v-else
                             :key="`resource-${index}`"
-                            :current="currentCategoryMenu" 
+                            :current="currentCategoryMenu"
                             :label="resource.title"
                             :menu-id="resource.id || resource.title"
                             :childs="resource.links"
@@ -107,6 +106,8 @@ export default {
 
 <style lang="scss">
 .page-sidebar {
+    display: flex;
+    flex-direction: column;
     width: 280px;
     background-color: var(--darken-base-color);
     z-index: 1049;
@@ -142,6 +143,7 @@ export default {
     .sidebar-menu {
         padding-top: 30px;
         color: white;
+        overflow-y: auto;
 
         .router-link-exact-active {
             background-color: rgba(#000, 0.2);
