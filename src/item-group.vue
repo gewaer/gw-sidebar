@@ -2,7 +2,7 @@
     <div :class="{ 'open-category-menu' : isActive}" class="menu-category row flex-column no-gutters">
         <span
             :class="{ active: isActive }"
-            class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center" 
+            class="menu-category-title py-3 px-4 d-flex justify-content-between align-items-center"
             @click.prevent="toggleActive()"
         >
             {{ label }}
@@ -53,7 +53,7 @@ export default {
             required: true
         },
         childName: {
-            type: String, 
+            type: String,
             default: "links"
         }
     },
@@ -78,7 +78,7 @@ export default {
     cursor: pointer;
     border-top: 1px solid  var(--base-color);
     color: var(--base-color);
-    
+
     .toggle, .icon-thumbnail i {
         color: var(--base-color) !important;
     }
@@ -88,7 +88,7 @@ export default {
 <style lang="scss">
 .menu-category {
     border-top: 1px solid rgba(255, 255, 255, .2);
-    
+
     .menu-category-title {
         color: var(--base-color);
         padding-right: 30px !important;
@@ -97,7 +97,7 @@ export default {
             transition: transform .2s;
         }
     }
-    
+
     .menu-category-links {
         max-height: 0;
         overflow-y: hidden;
