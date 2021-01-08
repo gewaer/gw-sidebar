@@ -99,7 +99,6 @@ export default {
     }
 
     .menu-category-links {
-        max-height: 0;
         overflow-y: hidden;
         transition: all .5s;
     }
@@ -112,7 +111,6 @@ export default {
             }
         }
         .menu-category-links {
-            max-height: 600px;
             transition: all 1s;
         }
     }
