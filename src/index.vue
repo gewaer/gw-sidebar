@@ -16,7 +16,7 @@
             </div>
         </div>
         <div id="sidebar-menu" class="sidebar-menu">
-            <a href="#" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+            <a v-if="showChangeApp" href="#" class="row no-gutters align-items-center justify-content-between py-3 px-4">
                 <span class="col">Change App</span>
                 <span class="icon-thumbnail col-auto">
                     <i class="fa fa-box" />
@@ -70,6 +70,10 @@ export default {
                 return [];
             }
         },
+        showChangeApp: {
+            type: Boolean,
+            default: false
+        },
         showSidebar: {
             type: Boolean,
             default: false
@@ -87,7 +91,14 @@ export default {
     watch: {
         resources: {
             handler(links) {
-                this.currentCategoryMenu = links.length ? links.find(link => link.links).title : "";
+                let title = "";
+
+                if (links.length) {
+                    const link = links.find(link => link.links);
+                    title = link && link.title;
+                }
+
+                this.currentCategoryMenu = title;
             },
             immediate: true
         }

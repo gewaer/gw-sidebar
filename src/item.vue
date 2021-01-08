@@ -24,9 +24,9 @@
             <span v-else>{{ resource.title | firstLetter }}</span>
         </span>
     </router-link>
-    
+
     <a
-        v-else
+        v-else-if="resource.url"
         :href="resource.url"
         class="row no-gutters align-items-center justify-content-between py-3 px-4"
         target="_blank"
