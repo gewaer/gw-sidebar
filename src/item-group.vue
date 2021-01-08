@@ -12,7 +12,7 @@
         <div class="menu-category-links">
             <template v-for="(resource, index) in childs">
                 <side-item
-                    v-if="!resource[childName]|| resource[childName].length"
+                    v-if="resource.is_published && (!resource[childName] || resource[childName].length)"
                     :key="`resource-${label}-${index}`"
                     :resource="resource"
                 />
@@ -99,6 +99,7 @@ export default {
     }
 
     .menu-category-links {
+        max-height: 0;
         overflow-y: hidden;
         transition: all .5s;
     }
@@ -111,6 +112,7 @@ export default {
             }
         }
         .menu-category-links {
+            max-height: 125vh;
             transition: all 1s;
         }
     }
