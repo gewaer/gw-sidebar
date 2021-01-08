@@ -33,12 +33,12 @@
                 <template v-for="(resource, index) in resources">
                     <template v-if="!resource.is_published || +resource.is_published">
                         <side-item
-                            v-if="!resource.links || !resource.links.length"
+                            v-if="(!resource.links || !resource.links.length) && resource.is_published"
                             :key="`resource-${index}`"
                             :resource="resource"
                         />
                         <side-item-group
-                            v-else
+                            v-else-if="resource.links && resource.links.length"
                             :key="`resource-${index}`"
                             :current="currentCategoryMenu"
                             :label="resource.title"
