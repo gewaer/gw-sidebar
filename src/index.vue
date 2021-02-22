@@ -16,7 +16,7 @@
             </div>
         </div>
         <div id="sidebar-menu" class="sidebar-menu">
-            <a href="#" class="row no-gutters align-items-center justify-content-between py-3 px-4">
+            <a v-if="showChangeApp" href="#" class="row no-gutters align-items-center justify-content-between py-3 px-4">
                 <span class="col">Change App</span>
                 <span class="icon-thumbnail col-auto">
                     <i class="fa fa-box" />
@@ -28,52 +28,24 @@
                     <i class="fa fa-pie-chart" />
                 </span>
             </router-link>
+
             <template v-if="resources">
                 <template v-for="(resource, index) in resources">
-                    <template v-if="+resource.show">
-                        <router-link
-                            v-if="resource.slug"
+                    <template v-if="!resource.is_published || +resource.is_published">
+                        <side-item
+                            v-if="(!resource.links || !resource.links.length) && resource.is_published"
                             :key="`resource-${index}`"
-                            :to="{ name: 'browse', params: { resource: resource.slug }}"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                        >
-                            <span class="col">{{ resource.name }}</span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.slug | firstLetter }}</span>
-                            </span>
-                        </router-link>
-                        <router-link
-                            v-else-if="resource.route"
+                            :resource="resource"
+                        />
+                        <side-item-group
+                            v-else-if="resource.links && resource.links.length"
                             :key="`resource-${index}`"
-                            :to="resource.route"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                        >
-                            <span class="col">{{ resource.name }}</span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.name | firstLetter }}</span>
-                            </span>
-                        </router-link>
-                        <a
-                            v-else-if="resource.link"
-                            :key="`resource-${index}`"
-                            :href="resource.link"
-                            class="row no-gutters align-items-center justify-content-between py-3 px-4"
-                            target="_blank"
-                        >
-                            <span class="col resource-name">
-                                {{ resource.name }}
-                                <i class="fas fa-external-link-alt" />
-                            </span>
-                            <span class="icon-thumbnail col-auto">
-                                <img v-if="resource.icon" :src="resource.icon" width="50%">
-                                <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-                                <span v-else>{{ resource.name | firstLetter }}</span>
-                            </span>
-                        </a>
+                            :current="currentCategoryMenu"
+                            :label="resource.title"
+                            :menu-id="resource.id || resource.title"
+                            :childs="resource.links"
+                            @toggle-active="toggleActive"
+                        />
                     </template>
                 </template>
             </template>
@@ -82,12 +54,14 @@
 </template>
 
 <script>
+import SideItem from "./item";
+import SideItemGroup from "./item-group";
+
 export default {
     name: "GwSidebar",
-    filters: {
-        firstLetter(value) {
-            return value.charAt(0);
-        }
+    components: {
+        SideItem,
+        SideItemGroup
     },
     props: {
         resources: {
@@ -95,6 +69,10 @@ export default {
             default() {
                 return [];
             }
+        },
+        showChangeApp: {
+            type: Boolean,
+            default: false
         },
         showSidebar: {
             type: Boolean,
@@ -104,12 +82,43 @@ export default {
             type: String,
             default: "hover"
         }
+    },
+    data() {
+        return {
+            currentCategoryMenu: ""
+        }
+    },
+    watch: {
+        resources: {
+            handler(links) {
+                let title = "";
+
+                if (links.length) {
+                    const link = links.find(link => link.links);
+                    title = link && link.title;
+                }
+
+                this.currentCategoryMenu = title;
+            },
+            immediate: true
+        }
+    },
+    methods: {
+        toggleActive(categoryName) {
+            if (this.currentCategoryMenu == categoryName) {
+                this.currentCategoryMenu = "";
+            } else {
+                this.currentCategoryMenu = categoryName;
+            }
+        }
     }
 };
 </script>
 
 <style lang="scss">
 .page-sidebar {
+    display: flex;
+    flex-direction: column;
     width: 280px;
     background-color: var(--darken-base-color);
     z-index: 1049;
@@ -145,6 +154,7 @@ export default {
     .sidebar-menu {
         padding-top: 30px;
         color: white;
+        overflow-y: auto;
 
         .router-link-exact-active {
             background-color: rgba(#000, 0.2);

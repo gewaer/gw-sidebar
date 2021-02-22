@@ -1,6 +1,6 @@
 {
   "name": "@gewaer/gw-sidebar",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Base sidebar component for the Gewaer platform.",
   "main": "./dist/gw-sidebar.umd.min.js",
   "files": [
