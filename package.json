@@ -1,6 +1,6 @@
 {
   "name": "@gewaer/gw-sidebar",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "Base sidebar component for the Gewaer platform.",
   "main": "./dist/gw-sidebar.umd.min.js",
   "files": [
@@ -27,18 +27,18 @@
     "lint"
   ],
   "dependencies": {
-    "vue": "^2.6.10"
+    "vue": "^2.6.12"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.5",
-    "@vue/cli-plugin-eslint": "^4.0.5",
-    "@vue/cli-service": "^4.0.5",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.1",
-    "eslint-plugin-vue": "^6.0.1",
-    "node-sass": "^4.13.0",
+    "@vue/cli-plugin-babel": "^4.5.13",
+    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-service": "^4.5.13",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^4.14.1",
     "pre-commit": "^1.2.2",
-    "sass-loader": "^8.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.12"
   }
 }
