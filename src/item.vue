@@ -5,11 +5,7 @@
         class="row no-gutters align-items-center justify-content-between py-3 px-4"
     >
         <span class="col">{{ resource.title }}</span>
-        <span class="icon-thumbnail col-auto">
-            <img v-if="resource.icon" :src="resource.icon" width="50%">
-            <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-            <span v-else>{{ resource.slug | firstLetter }}</span>
-        </span>
+        <icon :resource="resource" />
     </router-link>
 
     <router-link
@@ -18,11 +14,7 @@
         class="row no-gutters align-items-center justify-content-between py-3 px-4"
     >
         <span class="col">{{ resource.name }}</span>
-        <span class="icon-thumbnail col-auto">
-            <img v-if="resource.icon" :src="resource.icon" width="50%">
-            <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-            <span v-else>{{ resource.title | firstLetter }}</span>
-        </span>
+        <icon :resource="resource" />
     </router-link>
 
     <a
@@ -35,20 +27,16 @@
             {{ resource.title }}
             <i class="fas fa-external-link-alt" />
         </span>
-        <span class="icon-thumbnail col-auto">
-            <img v-if="resource.icon" :src="resource.icon" width="50%">
-            <i v-else-if="resource.iconClass" :class="resource.iconClass" />
-            <span v-else>{{ resource.title | firstLetter }}</span>
-        </span>
+        <icon :resource="resource" />
     </a>
 </template>
 
 <script>
+import Icon from "./icon";
+
 export default {
-    filters: {
-        firstLetter(value) {
-            return value && value.charAt(0);
-        }
+    components: {
+        Icon
     },
     props: {
         resource: {
